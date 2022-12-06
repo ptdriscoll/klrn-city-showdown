@@ -1,0 +1,171 @@
+<script>
+  const formActionDev = 'vote.php';
+  const formActionProd = 'https://pbs.klrn.org/cityshowdown/vote.php';
+</script>
+
+<style>
+  .city_showdown_hide {
+    display: none !important;
+  }
+  #city_showdown > form {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  #city_showdown > form > select,
+  #city_showdown > form > select > option,
+  #city_showdown > form > input {
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.625;
+  }
+  #city_showdown > form > select,
+  #city_showdown > form > input {
+    min-width: 100%;
+    margin-bottom: 1.6rem;
+    padding: 0 1.6rem;
+    height: 5rem;
+  }
+  #city_showdown > form > select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1.6rem center;
+    background-size: 1.6rem;
+  }
+  #city_showdown_thanks > h2,
+  #city_showdown_test {
+    max-width: 600px;
+    margin: 2.6rem auto;
+  }
+  #city_showdown_test {
+    max-width: 300px;
+  }
+  @media (max-width: 1311px) {
+    #city_showdown,
+    #city_showdown_thanks,
+    #city_showdown_test {
+      padding: 0px 16px 16px 16px;
+    }
+  }
+</style>
+
+<div id="city_showdown" class="text-container city_showdown_hide">
+  <form name="city_showdown_form" method="post">
+    <select id="to_district" name="to_district" required>
+      <option value="" disabled selected hidden>VOTE for contestant</option>
+      <option value="1">District 1 | Garrett T. Capps</option>
+      <option value="2">District 2 | Real IQ</option>
+      <option value="3">District 3 | Saving Jackie</option>
+      <option value="4">District 4 | Harvey McLaughlin</option>
+      <option value="5">District 5 | Irma Aguilar</option>
+      <option value="6">District 6 | Andria Rose</option>
+      <option value="7">District 7 | Volc&aacute;n</option>
+      <option value="8">District 8 | Kenny Bissett</option>
+      <option value="9">District 9 | Rayne Fernandez</option>
+      <option value="10">District 10 | Shannon Sionna</option>
+    </select>
+
+    <select id="from_district" name="from_district" required>
+      <option value="" disabled selected hidden>
+        Select your City Council district
+      </option>
+      <option value="1">I live in Council District 1</option>
+      <option value="2">I live in Council District 2</option>
+      <option value="3">I live in Council District 3</option>
+      <option value="4">I live in Council District 4</option>
+      <option value="5">I live in Council District 5</option>
+      <option value="6">I live in Council District 6</option>
+      <option value="7">I live in Council District 7</option>
+      <option value="8">I live in Council District 8</option>
+      <option value="9">I live in Council District 9</option>
+      <option value="10">I live in Council District 10</option>
+      <option value="11">I live outside San Antonio</option>
+    </select>
+
+    <input
+      type="text"
+      id="zip_code"
+      class="city_showdown_hide"
+      name="zip_code"
+      pattern="[0-9]{5}"
+      maxlength="5"
+      placeholder="Add your 5-digit Zip Code"
+    />
+
+    <button type="submit" class="klrn_button read-more__link">Submit</button>
+  </form>
+</div>
+
+<div id="city_showdown_thanks" class="text-container city_showdown_hide">
+  <h2>Thank you for voting in KLRN's City Showdown!</h2>
+  <div id="city_showdown_test" class="city_showdown_hide">
+    <h3>Results from test submission:</h3>
+    <ul>
+      <li>
+        From Council District: <b><span id="from-response"></span></b>
+      </li>
+      <li>
+        Contestant voted for: <b><span id="to-response"></span></b>
+      </li>
+      <li>
+        Zip Code: <b><span id="zip-response"></span></b>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  if (['localhost', '127.0.0.1', ''].includes(location.hostname)) {
+    city_showdown_form.action = formActionDev;
+    const link = document.createElement('link');
+    link.href = 'assets/klrn-form.css';
+    link.rel = 'stylesheet';
+    document.querySelector('head').prepend(link);
+  } else city_showdown_form.action = formActionProd;
+
+  const city_showdown = document.querySelector('#city_showdown');
+  const city_showdown_thanks = document.querySelector('#city_showdown_thanks');
+  const params = new URLSearchParams(document.location.search);
+
+  if (params.get('response') === 'thank-you') {
+    city_showdown_thanks.classList.remove('city_showdown_hide');
+  } else city_showdown.classList.remove('city_showdown_hide');
+
+  if (params.get('from')) {
+    const from = document.querySelector('#from-response');
+    const to = document.querySelector('#to-response');
+    const zip = document.querySelector('#zip-response');
+
+    if (from) from.innerHTML = params.get('from');
+    if (to) to.innerHTML = params.get('to');
+    if (zip) zip.innerHTML = params.get('zip');
+
+    city_showdown_test.classList.remove('city_showdown_hide');
+  }
+
+  const fromDistrict = document.querySelector('#from_district');
+  const zipCode = document.querySelector('#zip_code');
+
+  if (fromDistrict && zipCode) {
+    fromDistrict.addEventListener('change', (e) => {
+      if (e.target.value === '11') {
+        zipCode.className = '';
+        zipCode.required = true;
+      } else {
+        zipCode.className = 'city_showdown_hide';
+        zipCode.required = false;
+      }
+    });
+  }
+
+  if (zipCode) {
+    zipCode.addEventListener('input', (e) => {
+      if (zipCode.validity.patternMismatch) {
+        if (/^\d+$/.test(e.target.value))
+          zipCode.setCustomValidity('Be sure to enter 5 numbers');
+        else zipCode.setCustomValidity('You must enter only numbers');
+        zipCode.reportValidity();
+      } else zipCode.setCustomValidity('');
+    });
+  }
+</script>

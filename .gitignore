@@ -1,0 +1,7 @@
+#Mac
+.DS_Store
+Thumbs.db
+
+#other
+_notes/
+config.php

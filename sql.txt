@@ -1,0 +1,22 @@
+DROP TABLE votes;
+
+
+CREATE TABLE votes (
+    id int NOT NULL AUTO_INCREMENT,
+    from_district int NOT NULL,
+    to_district int NOT NULL,
+    zip varchar(10),
+    PRIMARY KEY (id)
+);
+
+
+INSERT INTO votes (from_district, to_district, zip varchar)
+VALUES (11, 2, '12345')
+
+
+SELECT to_district, COUNT(*) AS count FROM votes 
+GROUP BY to_district ORDER By to_district
+
+
+SELECT from_district, to_district, zip FROM votes 
+ORDER By from_district, to_district

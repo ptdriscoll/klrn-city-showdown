@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KLRN City Showdown results</title>
+    <link href="assets/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a href="https://www.klrn.org/">
+          <img id="klrn_logo" src="assets/img/KLRN_logo.png" />
+        </a>
+      </div>
+    </header>
+
+    <article>
+      <h1 class="center">KLRN City Showdown Voting Results</h1>
+
+      <div id="login">
+        <form class="center" method="post">
+          <input type="text" name="username" placeholder="Username" required />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+          <button type="submit">Login</button>
+        </form>
+      </div>
+
+      <div id="results">
+        <table>
+          <tr>
+            <th id="district">Dist</th>
+            <th id="contestant">Contestant</th>
+            <th id="votes">Votes</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>bName of Contestant 1</td>
+            <td>50</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>dName of Contestant 2 as a long name</td>
+            <td>94</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>aName of Contest 3</td>
+            <td>67</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>cName of Contestant 4</td>
+            <td>62</td>
+          </tr>
+        </table>
+      </div>
+
+      <div id="download">
+        <form class="center" method="post" action="/cityshowdown/download.php">
+          <button type="submit">Download Results</button>
+        </form>
+      </div>
+    </article>
+  </body>
+  <script src="assets/scripts.js"></script>
+</html>
