@@ -30,6 +30,7 @@ CREATE TABLE votes (
 - Add the assets folder to the project root folder on the server
   - Except for /assets/klrn-form.css and /assets/html/index_results.html, which are not needed for production
 - Edit contestants.php to include contestants, in in this format: `council_district_number => 'contestant name'`
+- Rename config-example.php as config.php
 - Edit config.php to add database connection info, voter form's location urls, and a list of users as `'username' => 'password'`
 
 ```
