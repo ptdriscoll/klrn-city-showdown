@@ -16,8 +16,9 @@ header("Pragma: no-cache");
 header("Cache-Control: no-cache, must-revalidate");
 
 //send headers to force download of csv file
-header('Content-Type: application/csv');
+header('Content-Type: application/csv; charset=UTF-8');
 header('Content-Disposition: attachment; filename="City-Showdown-Results.csv";'); 
+echo pack("CCC",0xef,0xbb,0xbf); //tells Excel it's UTF-8 BOM
 
 //output csv
 $output = fopen('php://output', 'w');
