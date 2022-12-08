@@ -20,18 +20,29 @@ header('Content-Type: application/csv; charset=UTF-8');
 header('Content-Disposition: attachment; filename="City-Showdown-Results.csv";'); 
 echo pack("CCC",0xef,0xbb,0xbf); //tells Excel it's UTF-8 BOM
 
+//setup csv header
+$contestants_arr = include('contestants.php');
+$header_row = ['From District', 'Zip Code'];
+$to_districts = []; 
+foreach($contestants_arr as $key=>$val) {
+    array_push($to_districts, $key.' - '.$val);
+}
+array_splice($header_row, 1, 0, $to_districts);
+
 //output csv
 $output = fopen('php://output', 'w');
-fputcsv($output, ['From District', 'To District', 'Contestant', 'Zip Code']);
+fputcsv($output, $header_row);
 
 //get data
-$contestants_arr = include('contestants.php');
 $sql = 'SELECT from_district, to_district, zip FROM votes ORDER By from_district, to_district';
 $result = $conn->query($sql);
 
 //per row, splice in contestant: ['from_district', to_district', 'contestant', 'zip']
-while($row = $result->fetch_assoc()) {
-    $row = [$row['from_district'], $row['to_district'], $contestants_arr[$row['to_district']], $row['zip']];
+while($next = $result->fetch_assoc()) {
+    $row = [$next['from_district'], $next['zip']];
+    $to_districts_row = array_fill(0, 10, null);
+    $to_districts_row[intval($next['to_district'])-1] = 1;
+    array_splice($row, 1, 0, $to_districts_row);
     fputcsv($output, $row);
 }
 
