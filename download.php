@@ -37,7 +37,7 @@ fputcsv($output, $header_row);
 $sql = 'SELECT from_district, to_district, zip FROM votes ORDER By from_district, to_district';
 $result = $conn->query($sql);
 
-//per row, splice in contestant: ['from_district', to_district', 'contestant', 'zip']
+//per row, splice in contestant: ['from_district', [to_districts], 'zip']
 while($next = $result->fetch_assoc()) {
     $row = [$next['from_district'], $next['zip']];
     $to_districts_row = array_fill(0, 10, null);
