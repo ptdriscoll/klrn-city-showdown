@@ -61,7 +61,7 @@ return array(
   - **/html** - html templates for admin page (though index_results.html is for mockup only)
   - **/img** - logo and header image for admin page
   - **klrn-form.css** - additional styles from klrn.org that get injected into vote.html only during development
-  - **scripts.js** - implements selection sort for each table column on admin page
+  - **scripts.js** - implements insertion sort for each table column on admin page
   - **styles.css** - for admin page
 - **/images** - for README.md
 - **admin.html** - mockup only

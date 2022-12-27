@@ -21,11 +21,11 @@ function tableSort(col) {
     toSort.push([content, i]);
   }
 
-  //now sort array of arrays using selection sort
+  //now sort array of arrays using insertion sort
   //start with ascending, but reverse if array was already sorted ascending
-  [result, wasAscSorted] = selectionSort(toSort, (asc = true));
+  [result, wasAscSorted] = insertionSort(toSort, (asc = true));
   if (wasAscSorted) {
-    [result, wasAscSorted] = selectionSort(toSort, (asc = false));
+    [result, wasAscSorted] = insertionSort(toSort, (asc = false));
   }
 
   //use sorted result to sort table in dom
@@ -43,7 +43,7 @@ function tableSort(col) {
 
 //sorts as ascending on first pass, but will then reverse
 //if array was already sorted as ascending
-function selectionSort(array, asc = true) {
+function insertionSort(array, asc = true) {
   let wasAscSorted = true;
 
   for (let i = 1; i < array.length; i++) {
