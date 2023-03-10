@@ -1,6 +1,8 @@
 <script>
+  //settings
   const formActionDev = 'vote.php';
   const formActionProd = 'https://pbs.klrn.org/cityshowdown/vote.php';
+  const showThankYou = false; //set to true to get feedback from submission testing
 </script>
 
 <style>
@@ -8,7 +10,7 @@
     display: none !important;
   }
   #city_showdown > form {
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
   }
   #city_showdown > form > select,
@@ -115,6 +117,8 @@
 </div>
 
 <script>
+  //NOTE: this if else block can't be saved as an embed in PBS' Bento
+  /*
   if (['localhost', '127.0.0.1', ''].includes(location.hostname)) {
     city_showdown_form.action = formActionDev;
     const link = document.createElement('link');
@@ -122,16 +126,22 @@
     link.rel = 'stylesheet';
     document.querySelector('head').prepend(link);
   } else city_showdown_form.action = formActionProd;
+  */
+
+  //this line is needed if the if else block above is noted out
+  city_showdown_form.action = formActionProd;
 
   const city_showdown = document.querySelector('#city_showdown');
   const city_showdown_thanks = document.querySelector('#city_showdown_thanks');
-  const params = new URLSearchParams(document.location.search);
+  if (showThankYou) {
+    const params = new URLSearchParams(document.location.search);
+  }
 
-  if (params.get('response') === 'thank-you') {
+  if (showThankYou && params.get('response') === 'thank-you') {
     city_showdown_thanks.classList.remove('city_showdown_hide');
   } else city_showdown.classList.remove('city_showdown_hide');
 
-  if (params.get('from')) {
+  if (showThankYou && params.get('from')) {
     const from = document.querySelector('#from-response');
     const to = document.querySelector('#to-response');
     const zip = document.querySelector('#zip-response');
