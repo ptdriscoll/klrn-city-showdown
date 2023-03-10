@@ -1,0 +1,78 @@
+<script>
+  (function () {
+    //settings
+    const votingRound = 'klrnCityShowdownRound1';
+    const allowedVotes = 5;
+    const votingRoundExpires = 'Sun, 30 Apr 2023 20:57:19 GMT';
+
+    //save any search parameters, then remove search or hash from url
+    const params = new URLSearchParams(document.location.search);
+    if (location.search || location.hash) {
+      history.replaceState('', document.title, location.pathname);
+    }
+
+    //remove margin from html block holding this script
+    const scriptTag = document.scripts[document.scripts.length - 1];
+    scriptTag.parentNode.style.marginTop = '0';
+
+    //get vote buttons
+    const button1 = document.querySelector('#intro h3 > a');
+    const button2 = document.querySelector('#vote-now');
+
+    if (button1) button1.addEventListener('click', replaceUrl);
+    if (button2) {
+      const buttonLink2 = button2.querySelector('a');
+      if (buttonLink2) {
+        buttonLink2.addEventListener('click', replaceUrl);
+      }
+    }
+
+    //check how many votes have been cast before
+    const hasVoted = getCookie(votingRound);
+    let timesVoted;
+
+    if (hasVoted) {
+      timesVoted = Number.parseInt(hasVoted.split('=')[1]);
+    } else timesVoted = 0;
+
+    //if this is a thank-you response, track that a new vote was cast
+    if (params.get('response') === 'thank-you') {
+      timesVoted += 1;
+      document.cookie =
+        `${votingRound}=${timesVoted.toString()}; ` +
+        `expires=${votingRoundExpires}; path=${location.pathname}`;
+    }
+
+    //if this is a thank-you response or votes were maxed out, add a thank you title
+    if (params.get('response') === 'thank-you' || timesVoted >= allowedVotes) {
+      let intro = document.querySelector('#intro p');
+      if (intro) {
+        const h2 = document.createElement('h2');
+        h2.setAttribute('style', 'color: #8b0b04; text-align: center;');
+        h2.innerHTML =
+          "<strong>Thank you for voting in KLRN's City Showdown!</strong>";
+        intro.parentElement.prepend(h2);
+      }
+    }
+
+    //if votes were maxed out or voting is over, remove voting buttons and form
+    if (timesVoted >= allowedVotes || !votingRound) {
+      let voteForm = document.querySelector('#vote');
+      if (voteForm) voteForm.parentElement.remove();
+      if (button1) button1.parentElement.remove();
+      if (button2) button2.parentElement.remove();
+    }
+
+    function replaceUrl() {
+      setTimeout(
+        () => history.replaceState('', document.title, location.pathname),
+        1
+      );
+    }
+
+    function getCookie(name) {
+      const cookies = document.cookie.split(';');
+      return cookies.find((val) => val.startsWith(`${name}=`));
+    }
+  })();
+</script>
