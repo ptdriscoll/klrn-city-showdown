@@ -68,6 +68,7 @@ return array(
 - **\*.php** - server files to interact with MySQL database, and display and download results
 - **sql.txt** - for reference, SQL code used in app
 - **vote.html** - HTML, CSS and JavaScript component to manually insert as a [PBS Bento 3 Embed Code](https://docs.pbs.org/display/B3/Embed) for [klrn.org](https://www.klrn.org/)
+- **vote-script.htm** - script for specific web page (not included in this repository) to handle voting flow, such as how many votes to allow, and and when to shows form, buttons and thank-you message
 
 ![KLRN.org home page](images/results.jpg)
 
