@@ -60,11 +60,13 @@
       <option value="3">District 3 | Saving Jackie</option>
       <option value="4">District 4 | Harvey McLaughlin</option>
       <option value="5">District 5 | Irma Aguilar</option>
+      <!--  
       <option value="6">District 6 | Andria Rose</option>
       <option value="7">District 7 | Volc&aacute;n</option>
       <option value="8">District 8 | Kenny Bissett</option>
       <option value="9">District 9 | Rayne Fernandez</option>
       <option value="10">District 10 | Shannon Sionna</option>
+      -->
     </select>
 
     <select id="from_district" name="from_district" required>
@@ -130,11 +132,13 @@
 
   //this line is needed if the if else block above is noted out
   city_showdown_form.action = formActionProd;
-
+  
   const city_showdown = document.querySelector('#city_showdown');
   const city_showdown_thanks = document.querySelector('#city_showdown_thanks');
+  let params;
+  
   if (showThankYou) {
-    const params = new URLSearchParams(document.location.search);
+    params = new URLSearchParams(document.location.search);
   }
 
   if (showThankYou && params.get('response') === 'thank-you') {

@@ -17,15 +17,9 @@
 
     //get vote buttons
     const button1 = document.querySelector('#intro h3 > a');
-    const button2 = document.querySelector('#vote-now');
-
+    const button2 = document.querySelector('#vote-now a');
     if (button1) button1.addEventListener('click', replaceUrl);
-    if (button2) {
-      const buttonLink2 = button2.querySelector('a');
-      if (buttonLink2) {
-        buttonLink2.addEventListener('click', replaceUrl);
-      }
-    }
+    if (button2) button2.addEventListener('click', replaceUrl);
 
     //check how many votes have been cast before
     const hasVoted = getCookie(votingRound);
@@ -57,10 +51,13 @@
 
     //if votes were maxed out or voting is over, remove voting buttons and form
     if (timesVoted >= allowedVotes || !votingRound) {
-      let voteForm = document.querySelector('#vote');
+      const voteForm = document.querySelector('#vote');
       if (voteForm) voteForm.parentElement.remove();
       if (button1) button1.parentElement.remove();
-      if (button2) button2.parentElement.remove();
+      const button2Block = document.querySelector('#vote-now');
+      if (button2Block) button2Block.parentElement.remove();
+      const biosLink = document.querySelector('#bios a'); //also, shorten bios button
+      if (biosLink) biosLink.innerHTML = 'See Bios &gt;';
     }
 
     function replaceUrl() {
