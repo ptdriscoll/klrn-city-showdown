@@ -11,6 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$stmt = $conn->prepare("INSERT INTO votes (from_district, to_district, zip) VALUES (?, ?, ?)");
 	$stmt->bind_param('iis', $from_district, $to_district, $zip);
 	$stmt->execute();
+  //echo $stmt->error;
+  
 	$stmt->close();
 	$conn->close();
 
