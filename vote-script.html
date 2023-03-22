@@ -1,9 +1,15 @@
 <script>
   (function () {
-    //settings
-    const votingRound = 'klrnCityShowdownRound1';
+    //settings for cookie
+    const votingRound = 'klrncs1';
     const allowedVotes = 5;
-    const votingRoundExpires = 'Sun, 30 Apr 2023 20:57:19 GMT';
+    const votingRoundExpires = 'Sun, 30 Apr 2023 20:57:19 GMT'; //cookie expiration
+
+    //settings for when voting form should show
+    const inSchedule = setSchedule(
+      'March 21, 2023 17:00:00',
+      'March 24, 2023 23:59:59'
+    );
 
     //save any search parameters, then remove search or hash from url
     const params = new URLSearchParams(document.location.search);
@@ -50,7 +56,7 @@
     }
 
     //if votes were maxed out or voting is over, remove voting buttons and form
-    if (timesVoted >= allowedVotes || !votingRound) {
+    if (timesVoted >= allowedVotes || !votingRound || !inSchedule) {
       const voteForm = document.querySelector('#vote');
       if (voteForm) voteForm.parentElement.remove();
       if (button1) button1.parentElement.remove();
@@ -70,6 +76,24 @@
     function getCookie(name) {
       const cookies = document.cookie.split(';');
       return cookies.find((val) => val.startsWith(`${name}=`));
+    }
+
+    function getDateTimeGMT(dateTimeString = '') {
+      let date = dateTimeString ? new Date(dateTimeString) : new Date();
+      date.setUTCMinutes(date.getUTCMinutes() - date.getTimezoneOffset());
+      return date;
+    }
+
+    function setSchedule(startString, endString) {
+      /*
+        @startString: in format: 'October 3, 1975 13:22:00'
+        @endString: in format: 'October 3, 1975 13:22:00'
+        @return true or false: whether current date and time is between startString and endString
+      */
+      const now = getDateTimeGMT();
+      const start = getDateTimeGMT(startString);
+      const end = getDateTimeGMT(endString);
+      return now >= start && now <= end;
     }
   })();
 </script>
