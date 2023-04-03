@@ -1,14 +1,14 @@
 <script>
   (function () {
     //settings for cookie
-    const votingRound = 'klrncs1';
+    const votingRound = 'dhapmsiklrnywpmq';
     const allowedVotes = 5;
     const votingRoundExpires = 'Sun, 30 Apr 2023 20:57:19 GMT'; //cookie expiration
 
     //settings for when voting form should show
     const inSchedule = setSchedule(
-      'March 21, 2023 17:00:00',
-      'March 24, 2023 23:59:59'
+      'April 2, 2023 19:00:00',
+      'April 7, 2023 23:59:59'
     );
 
     //save any search parameters, then remove search or hash from url
@@ -75,7 +75,7 @@
 
     function getCookie(name) {
       const cookies = document.cookie.split(';');
-      return cookies.find((val) => val.startsWith(`${name}=`));
+      return cookies.find((val) => val.trim().startsWith(`${name}=`));
     }
 
     function getDateTimeGMT(dateTimeString = '') {

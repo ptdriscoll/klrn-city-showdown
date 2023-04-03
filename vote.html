@@ -55,18 +55,18 @@
   <form name="city_showdown_form" method="post">
     <select id="to_district" name="to_district" required>
       <option value="" disabled selected hidden>VOTE for contestant</option>
+      <!--
       <option value="1">District 1 | Garrett T. Capps</option>
       <option value="2">District 2 | Real IQ</option>
       <option value="3">District 3 | Saving Jackie</option>
       <option value="4">District 4 | Harvey McLaughlin</option>
       <option value="5">District 5 | Irma Aguilar</option>
-      <!--  
+      -->
       <option value="6">District 6 | Andria Rose</option>
       <option value="7">District 7 | Volc&aacute;n</option>
       <option value="8">District 8 | Kenny Bissett</option>
       <option value="9">District 9 | Rayne Fernandez</option>
       <option value="10">District 10 | Shannon Sionna</option>
-      -->
     </select>
 
     <select id="from_district" name="from_district" required>
@@ -121,22 +121,22 @@
 <script>
   //NOTE: this if else block can't be saved as an embed in PBS' Bento
   /*
-  if (['localhost', '127.0.0.1', ''].includes(location.hostname)) {
-    city_showdown_form.action = formActionDev;
-    const link = document.createElement('link');
-    link.href = 'assets/klrn-form.css';
-    link.rel = 'stylesheet';
-    document.querySelector('head').prepend(link);
-  } else city_showdown_form.action = formActionProd;
-  */
+    if (['localhost', '127.0.0.1', ''].includes(location.hostname)) {
+      city_showdown_form.action = formActionDev;
+      const link = document.createElement('link');
+      link.href = 'assets/klrn-form.css';
+      link.rel = 'stylesheet';
+      document.querySelector('head').prepend(link);
+    } else city_showdown_form.action = formActionProd;
+    */
 
   //this line is needed if the if else block above is noted out
   city_showdown_form.action = formActionProd;
-  
+
   const city_showdown = document.querySelector('#city_showdown');
   const city_showdown_thanks = document.querySelector('#city_showdown_thanks');
   let params;
-  
+
   if (showThankYou) {
     params = new URLSearchParams(document.location.search);
   }
