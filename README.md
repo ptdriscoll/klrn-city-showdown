@@ -1,6 +1,6 @@
 # KLRN City Showdown Voting App
 
-This is a voting app for KLRN's City Showdown, set to debut in 2023. Residents vote for their favorite performers representing San Antonio City Council districts, with a winner emerging after several rounds. KLRN staff logs into an admin page to view and sort totals and donwload votes.
+This is a voting app for [KLRN's City Showdown](https://www.klrn.org/events/cityshowdown/), held in March and April of 2023. Residents voted for their favorite performers representing San Antonio City Council districts, with a winner emerging after several rounds. KLRN staff logged into an admin page to view and sort totals and donwload votes.
 
 ![KLRN.org home page](images/vote-logo.jpg)
 
@@ -50,6 +50,7 @@ return array(
 ### Front-end voter form component
 
 - In the script at the top of vote.html set the form's action url for `formActionDev` and `formActionProd`
+- And set `showThankYou=true` when testing results from database, and to `false` for production
 - Also in vote.html, edit the select element that has `id="to_district"` to include contestants for each council district
 - Add vote.html to a web page
   - The file here is designed as a [PBS Bento 3 Embed Code](https://docs.pbs.org/display/B3/Embed) for [klrn.org](https://www.klrn.org/)
@@ -68,11 +69,11 @@ return array(
 - **\*.php** - server files to interact with MySQL database, and display and download results
 - **sql.txt** - for reference, SQL code used in app
 - **vote.html** - HTML, CSS and JavaScript component to manually insert as a [PBS Bento 3 Embed Code](https://docs.pbs.org/display/B3/Embed) for [klrn.org](https://www.klrn.org/)
-- **vote-script.html** - script for specific web page (not included in this repository) to handle voting flow, such as how many votes to allow, and when to shows form, buttons and thank-you message
+- **vote-script.html** - script to handle dynamic page elements outside of voting form, such as how many votes to allow, and when to show form, buttons and thank-you message
 
 ![KLRN.org home page](images/results.jpg)
 
 ## References
 
-- https://www.klrn.org/
+- https://www.klrn.org/cityshowdown/
 - https://docs.pbs.org/display/B3
