@@ -2,7 +2,7 @@
 
 This is a voting app for KLRN's City Showdown, set to debut in 2023. Residents vote for their favorite performers representing San Antonio City Council districts, with a winner emerging after several rounds. KLRN staff logs into an admin page to view and sort totals and donwload votes.
 
-![KLRN.org home page](images/vote.jpg)
+![KLRN.org home page](images/vote-logo.jpg)
 
 ## Setup
 
