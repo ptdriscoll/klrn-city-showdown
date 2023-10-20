@@ -75,5 +75,6 @@ return array(
 
 ## References
 
-- https://www.klrn.org/cityshowdown/
-- https://docs.pbs.org/display/B3
+- [KLRN City Showdown](https://www.klrn.org/cityshowdown/)
+- [Bento 3.0 documentation](https://docs.pbs.org/display/B3)
+- [Bento 3.0 embed component](https://docs.pbs.org/display/B3/Embed)
