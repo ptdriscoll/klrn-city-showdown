@@ -25,7 +25,7 @@ if (!ISSET($_SESSION['is_logged'])) {
 } else {
 	//unset($_SESSION['user']);
 	readfile('assets/html/index_top.html');
-    include('results.php');  
+    include('api/display-results.php');  
 	readfile('assets/html/index_download.html');
 }
 readfile('assets/html/index_bottom.html');

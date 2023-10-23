@@ -4,14 +4,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $to_district = intval($_POST['to_district']);
     $zip = substr(htmlspecialchars($_POST['zip_code']), 0, 5);
 
-	$config = require('config.php');
-	require('conn.php');
+	$config = require(__DIR__ . '/../config.php');
+	require('../includes/database-conn.php');
 
 	//save to db and close connection
 	$stmt = $conn->prepare("INSERT INTO votes (from_district, to_district, zip) VALUES (?, ?, ?)");
 	$stmt->bind_param('iis', $from_district, $to_district, $zip);
 	$stmt->execute();
-  //echo $stmt->error;
+    //echo $stmt->error;
   
 	$stmt->close();
 	$conn->close();
@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	//post back
 	$params = '?response=thank-you'.$test_response;  
 	$is_localhost = in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1']);
+	echo $config['vote_url_dev'];
 	$postback = $is_localhost ? $config['vote_url_dev'] : $config['vote_url_prod'];
 	header('Location: '.$postback.$params);
 	exit(); 

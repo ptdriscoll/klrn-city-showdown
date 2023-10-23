@@ -5,8 +5,8 @@ if(!ISSET($_SESSION['is_logged']) || $_SERVER['REQUEST_METHOD'] != 'POST') {
     die(); 
 }
 
-require('conn.php');
-$contestants_arr = include('contestants.php');
+require('../includes/database-conn.php');
+$contestants_arr = include('../includes/contestants-list.php');
 
 //send headers to disable browser caching
 $now =  gmdate("D, d M Y H:i:s") . " GMT";
@@ -21,7 +21,7 @@ header('Content-Disposition: attachment; filename="City-Showdown-Results.csv";')
 echo pack("CCC",0xef,0xbb,0xbf); //tells Excel it's UTF-8 BOM
 
 //setup csv header
-$contestants_arr = include('contestants.php');
+$contestants_arr = include('../includes/contestants-list.php');
 $header_row = ['From District', 'Zip Code'];
 $to_districts = []; 
 foreach($contestants_arr as $key=>$val) {

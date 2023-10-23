@@ -1,5 +1,5 @@
 <?php
-if (!ISSET($config)) $config = require('config.php');
+if (!ISSET($config)) $config = require(__DIR__ . '/../config.php');
 $servername = $config['db_host'];
 $username = $config['db_user'];
 $password = $config['db_pass'];

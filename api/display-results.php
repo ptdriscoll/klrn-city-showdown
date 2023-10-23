@@ -12,8 +12,8 @@
             <th id="votes">Votes</th>
           </tr>
     <?php
-    require('conn.php');
-    $contestants_arr = include('contestants.php');
+    require('includes/database-conn.php');
+    $contestants_arr = include('includes/contestants-list.php');
     $sql = 'SELECT to_district, COUNT(*) AS count FROM votes 
     GROUP BY to_district ORDER By to_district';
     $result = $conn->query($sql);
