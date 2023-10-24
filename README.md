@@ -30,10 +30,10 @@ CREATE TABLE votes (
 - Add the /assets folder to the app's root folder on the server
   - Except for /assets/klrn-form.css and /assets/html/index_results.html, which are not needed for production
 - Edit /includes/contestants-list.php to include contestants, in in this format:
-  `council_district_number => 'contestant name'`
+  - `council_district_number => 'contestant name'`
 - Rename config-example.php as config.php
 - Edit config.php to add database connection info, voter form's location urls, and a list of users as:
-  `'username' => 'password'`
+  - `'username' => 'password'`
 
 ```
 // config-example.php
@@ -63,26 +63,19 @@ return array(
 ## Folders and files
 
 - **/api**
-
   - **display-results.php** - gets voting results from database and parses into HTML
   - **download-results.php** - gets voting results from database and downloads as csv file
   - **submit-vote.php** - parses POST from web form and inserts into database
-
 - **/assets**
-
   - **/html** - html templates for admin page (though index_results.html is for mockup only)
   - **/img** - logo and header image for admin page
   - **klrn-form.css** - additional styles from klrn.org that get injected into vote.html only during development
   - **scripts.js** - implements insertion sort for each table column on admin page
   - **styles.css** - for admin page
-
 - **/images** - for README.md
-
 - **/includes**
-
   - **contestants-list.php** - associative array of council districts and the contestants
   - **database-conn.php**
-
 - **admin.html** - mockup only
 - **index.php** - admin interface
 - **sql.txt** - for reference, SQL code used in app
