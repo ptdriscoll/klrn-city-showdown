@@ -24,8 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	//post back
 	$params = '?response=thank-you'.$test_response;  
 	$is_localhost = in_array($_SERVER['REMOTE_ADDR'], ['127.0.0.1', '::1']);
-	echo $config['vote_url_dev'];
 	$postback = $is_localhost ? $config['vote_url_dev'] : $config['vote_url_prod'];
+	//echo $postback;
 	header('Location: '.$postback.$params);
 	exit(); 
 }
