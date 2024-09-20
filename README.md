@@ -17,19 +17,19 @@ DROP TABLE votes;
 ```
 CREATE TABLE votes (
     id int NOT NULL AUTO_INCREMENT,
-    from_district int NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     to_district int NOT NULL,
     zip varchar(10),
     PRIMARY KEY (id)
 );
 ```
 
-Here is the SQL code to create the database table for the 2024 event:
+This is the SQL code used to create the database table for the 2023 event:
 
 ```
 CREATE TABLE votes (
     id int NOT NULL AUTO_INCREMENT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    from_district int NOT NULL,
     to_district int NOT NULL,
     zip varchar(10),
     PRIMARY KEY (id)
