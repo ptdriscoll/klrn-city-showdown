@@ -22,7 +22,7 @@ echo pack("CCC",0xef,0xbb,0xbf); //tells Excel it's UTF-8 BOM
 
 //setup csv header
 $contestants_arr = include('../includes/contestants-list.php');
-$header_row = ['From District', 'Zip Code'];
+$header_row = ['Date and Time', 'Zip Code'];
 $to_districts = []; 
 foreach($contestants_arr as $key=>$val) {
     array_push($to_districts, $key.' - '.$val);
@@ -34,12 +34,12 @@ $output = fopen('php://output', 'w');
 fputcsv($output, $header_row);
 
 //get data
-$sql = 'SELECT from_district, to_district, zip FROM votes ORDER By from_district, to_district';
+$sql = 'SELECT created_at, to_district, zip FROM votes ORDER By created_at';
 $result = $conn->query($sql);
 
 //per row, splice in contestant: ['from_district', [to_districts], 'zip']
 while($next = $result->fetch_assoc()) {
-    $row = [$next['from_district'], $next['zip']];
+    $row = [$next['created_at'], $next['zip']];
     $to_districts_row = array_fill(0, 10, null);
     $to_districts_row[intval($next['to_district'])-1] = 1;
     array_splice($row, 1, 0, $to_districts_row);

@@ -87,9 +87,6 @@
   <div id="city_showdown_test" class="city_showdown_hide">
     <h3>Results from test submission:</h3>
     <ul>
-      <li class="city_showdown_hide">
-        From Council District: <b><span id="from-response"></span></b>
-      </li>
       <li>
         Contestant voted for: <b><span id="to-response"></span></b>
       </li>
@@ -126,33 +123,17 @@
     city_showdown_thanks.classList.remove('city_showdown_hide');
   } else city_showdown.classList.remove('city_showdown_hide');
 
-  if (showThankYou && params.get('from')) {
-    const from = document.querySelector('#from-response');
+  if (showThankYou && params.get('to')) {
     const to = document.querySelector('#to-response');
     const zip = document.querySelector('#zip-response');
 
-    if (from) from.innerHTML = params.get('from');
     if (to) to.innerHTML = params.get('to');
     if (zip) zip.innerHTML = params.get('zip');
 
     city_showdown_test.classList.remove('city_showdown_hide');
   }
 
-  const fromDistrict = document.querySelector('#from_district');
   const zipCode = document.querySelector('#zip_code');
-
-  if (fromDistrict && zipCode) {
-    fromDistrict.addEventListener('change', (e) => {
-      if (e.target.value === '11') {
-        zipCode.className = '';
-        zipCode.required = true;
-      } else {
-        zipCode.className = 'city_showdown_hide';
-        zipCode.required = false;
-      }
-    });
-  }
-
   if (zipCode) {
     zipCode.addEventListener('input', (e) => {
       if (zipCode.validity.patternMismatch) {
