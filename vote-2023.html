@@ -3,7 +3,7 @@
   const formActionDev = 'api/submit-vote.php';
   const formActionProd =
     'https://pbs.klrn.org/cityshowdown/api/submit-vote.php';
-  const showThankYou = true; //set to true to get feedback from submission testing
+  const showThankYou = false; //set to true to get feedback from submission testing
 </script>
 
 <style>
@@ -56,26 +56,43 @@
   <form name="city_showdown_form" method="post">
     <select id="to_district" name="to_district" required>
       <option value="" disabled selected hidden>VOTE for contestant</option>
-      <option value="1">District 1 | DELENDA</option>
-      <option value="2">District 2 | 34K</option>
-      <option value="3">District 3 | Los Juanos</option>
-      <option value="4">District 4 | Vinny Tovar</option>
-      <option value="5">District 5 | HoneyBunny</option>
-      <option value="6">District 6 | INOHA</option>
-      <option value="7">District 7 | Vanita Leo</option>
-      <option value="8">District 8 | Bat Allison</option>
-      <option value="9">District 9 | XO Monie</option>
-      <option value="10">District 10 | Kris Cari</option>
+      <!--<option value="1">District 1 | Garrett T. Capps</option>-->
+      <option value="2">District 2 | Real IQ</option>
+      <option value="3">District 3 | Saving Jackie</option>
+      <!--<option value="4">District 4 | Harvey McLaughlin</option>-->
+      <option value="5">District 5 | Irma Aguilar</option>
+      <!--<option value="6">District 6 | Andria Rose</option>-->
+      <!--<option value="7">District 7 | Volc&aacute;n</option>-->
+      <option value="8">District 8 | Kenny Bissett</option>
+      <!--<option value="9">District 9 | Rayne Fernandez</option>-->
+      <option value="10">District 10 | Shannon Sionna</option>
+    </select>
+
+    <select id="from_district" name="from_district" required>
+      <option value="" disabled selected hidden>
+        Select your City Council district
+      </option>
+      <option value="1">I live in Council District 1</option>
+      <option value="2">I live in Council District 2</option>
+      <option value="3">I live in Council District 3</option>
+      <option value="4">I live in Council District 4</option>
+      <option value="5">I live in Council District 5</option>
+      <option value="6">I live in Council District 6</option>
+      <option value="7">I live in Council District 7</option>
+      <option value="8">I live in Council District 8</option>
+      <option value="9">I live in Council District 9</option>
+      <option value="10">I live in Council District 10</option>
+      <option value="11">I live outside San Antonio</option>
     </select>
 
     <input
       type="text"
       id="zip_code"
+      class="city_showdown_hide"
       name="zip_code"
       pattern="[0-9]{5}"
       maxlength="5"
       placeholder="Add your 5-digit Zip Code"
-      required
     />
 
     <button type="submit" class="klrn_button read-more__link">Submit</button>
@@ -87,6 +104,9 @@
   <div id="city_showdown_test" class="city_showdown_hide">
     <h3>Results from test submission:</h3>
     <ul>
+      <li>
+        From Council District: <b><span id="from-response"></span></b>
+      </li>
       <li>
         Contestant voted for: <b><span id="to-response"></span></b>
       </li>
@@ -123,17 +143,33 @@
     city_showdown_thanks.classList.remove('city_showdown_hide');
   } else city_showdown.classList.remove('city_showdown_hide');
 
-  if (showThankYou && params.get('to')) {
+  if (showThankYou && params.get('from')) {
+    const from = document.querySelector('#from-response');
     const to = document.querySelector('#to-response');
     const zip = document.querySelector('#zip-response');
 
+    if (from) from.innerHTML = params.get('from');
     if (to) to.innerHTML = params.get('to');
     if (zip) zip.innerHTML = params.get('zip');
 
     city_showdown_test.classList.remove('city_showdown_hide');
   }
 
+  const fromDistrict = document.querySelector('#from_district');
   const zipCode = document.querySelector('#zip_code');
+
+  if (fromDistrict && zipCode) {
+    fromDistrict.addEventListener('change', (e) => {
+      if (e.target.value === '11') {
+        zipCode.className = '';
+        zipCode.required = true;
+      } else {
+        zipCode.className = 'city_showdown_hide';
+        zipCode.required = false;
+      }
+    });
+  }
+
   if (zipCode) {
     zipCode.addEventListener('input', (e) => {
       if (zipCode.validity.patternMismatch) {
