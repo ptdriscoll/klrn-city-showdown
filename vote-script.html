@@ -1,23 +1,25 @@
 <script>
   (function () {
-    //settings for cookie
-    const votingRound = 'hpllmfcklrnxnast';
-    const allowedVotes = 5;
-    const votingRoundExpires = 'Sun, 30 Apr 2023 20:57:19 GMT'; //cookie expiration
+    //configuration variables
+    const startDate = 'September 23, 2024 00:00:00';
+    const endDate = 'October 11, 2024 23:59:59';
+    const maxSubmissionsPerWeek = 10;
+    const weeksToRun = 3;
     const values = [
-      '7245491600357188',
-      '7097704702252468',
-      '38041060309678554',
-      '21554373390363724',
-      '4608827995599003',
-      '5358435865430193',
+      '5940703568127324',
+      '8116638813511933',
+      '5138697780333294',
+      '0467666175178326',
+      '9998528253204692',
+      '0310203365805716',
+      '4726789306531354',
+      '9155338943976249',
+      '2324158172856400',
+      '6112902922975441',
     ];
 
-    //settings for when voting form should show
-    const inSchedule = setSchedule(
-      'April 3, 2023 19:00:00',
-      'April 7, 2023 23:59:59'
-    );
+    //set when voting form should show
+    const inSchedule = setSchedule(startDate, endDate);
 
     //save any search parameters, then remove search or hash from url
     const params = new URLSearchParams(document.location.search);
@@ -35,14 +37,9 @@
     if (button1) button1.addEventListener('click', replaceUrl);
     if (button2) button2.addEventListener('click', replaceUrl);
 
-    //check how many votes have been cast before
-    const hasVoted = getCookie(votingRound);
-    let timesVoted;
-
-    if (hasVoted) {
-      timesVoted = values.indexOf(hasVoted.split('=')[1]);
-      if (timesVoted === -1) timesVoted = 5;
-    } else timesVoted = 0;
+    ///////////////////////////////////////
+    //refactor code below
+    ///////////////////////////////////////
 
     //if this is a thank-you response, track that a new vote was cast
     if (params.get('response') === 'thank-you') {
