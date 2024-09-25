@@ -3,23 +3,30 @@
     //configuration variables
     const startDate = 'September 23, 2024 00:00:00';
     const endDate = 'October 11, 2024 23:59:59';
-    const maxSubmissionsPerWeek = 10;
+    const maxSubmissionsPerWeek = 3;
     const weeksToRun = 3;
+    const name = 'esxzhymovcnhdrnejpvdgfwklrndmngy';
     const values = [
-      '5940703568127324',
-      '8116638813511933',
-      '5138697780333294',
-      '0467666175178326',
-      '9998528253204692',
-      '0310203365805716',
-      '4726789306531354',
-      '9155338943976249',
-      '2324158172856400',
-      '6112902922975441',
+      '4844020483593598',
+      '3057581721375638',
+      '3473277655188241',
+      '8514205704838595',
+      '8657386745384261',
+      '0146685210243435',
+      '2400826965668710',
+      '8586323096743767',
+      '8294250937770801',
+      '4373330211780922',
+      '4084703218425264',
     ];
 
+    //normalize dates to GMT time
+    const startDateGMT = getDateTimeGMT(startDate);
+    const endDateGMT = getDateTimeGMT(endDate);
+    const nowDateGMT = getDateTimeGMT();
+
     //set when voting form should show
-    const inSchedule = setSchedule(startDate, endDate);
+    const inSchedule = nowDateGMT >= startDateGMT && nowDateGMT <= endDateGMT;
 
     //save any search parameters, then remove search or hash from url
     const params = new URLSearchParams(document.location.search);
@@ -37,34 +44,36 @@
     if (button1) button1.addEventListener('click', replaceUrl);
     if (button2) button2.addEventListener('click', replaceUrl);
 
-    ///////////////////////////////////////
-    //refactor code below
-    ///////////////////////////////////////
+    //get current week of voting
+    const thisWeek = getWeek(startDateGMT, nowDateGMT);
+
+    //check how many votes have been cast this week
+    let timesVoted = getSetCookie(name, thisWeek);
 
     //if this is a thank-you response, track that a new vote was cast
     if (params.get('response') === 'thank-you') {
-      if (timesVoted < 5) timesVoted += 1;
-      const value = values[timesVoted];
-      document.cookie =
-        `${votingRound}=${value}; ` +
-        `expires=${votingRoundExpires}; ` +
-        `path=${location.pathname}`;
+      if (timesVoted < maxSubmissionsPerWeek) timesVoted += 1;
+      setCookie(name, timesVoted, thisWeek);
     }
 
     //if this is a thank-you response or votes were maxed out, add a thank you title
-    if (params.get('response') === 'thank-you' || timesVoted >= allowedVotes) {
+    if (
+      params.get('response') === 'thank-you' ||
+      timesVoted >= maxSubmissionsPerWeek
+    ) {
       let intro = document.querySelector('#intro p');
       if (intro) {
+        const strong = document.createElement('strong');
         const h2 = document.createElement('h2');
         h2.setAttribute('style', 'color: #8b0b04; text-align: center;');
-        h2.innerHTML =
-          "<strong>Thank you for voting in KLRN's City Showdown!</strong>";
-        intro.parentElement.prepend(h2);
+        h2.textContent = "Thank you for voting in KLRN's City Showdown!";
+        strong.appendChild(h2);
+        intro.parentElement.prepend(strong);
       }
     }
 
-    //if votes were maxed out or voting is over, remove voting buttons and form
-    if (timesVoted >= allowedVotes || !votingRound || !inSchedule) {
+    //if votes were maxed out or voting is not in schedule, remove voting buttons and form
+    if (timesVoted >= maxSubmissionsPerWeek || !inSchedule) {
       const voteForm = document.querySelector('#vote');
       if (voteForm) voteForm.parentElement.remove();
       if (button1) button1.parentElement.remove();
@@ -81,27 +90,43 @@
       );
     }
 
-    function getCookie(name) {
-      const cookies = document.cookie.split(';');
-      return cookies.find((val) => val.trim().startsWith(`${name}=`));
-    }
-
     function getDateTimeGMT(dateTimeString = '') {
       let date = dateTimeString ? new Date(dateTimeString) : new Date();
       date.setUTCMinutes(date.getUTCMinutes() - date.getTimezoneOffset());
       return date;
     }
 
-    function setSchedule(startString, endString) {
-      /*
-        @startString: in format: 'October 3, 1975 13:22:00'
-        @endString: in format: 'October 3, 1975 13:22:00'
-        @return true or false: whether current date and time is between startString and endString
-      */
-      const now = getDateTimeGMT();
-      const start = getDateTimeGMT(startString);
-      const end = getDateTimeGMT(endString);
-      return now >= start && now <= end;
+    //calculate current week number since start date
+    function getWeek(startDate, nowDate) {
+      const oneWeek = 7 * 24 * 60 * 60 * 1000;
+      return Math.floor((nowDate - startDate) / oneWeek) + 1;
+    }
+
+    function getSetCookie(name, thisWeek) {
+      let timesVoted = 0;
+      let weekVoted = thisWeek;
+
+      const cookies = document.cookie.split(';');
+      const hasVoted = cookies.find((val) => val.trim().startsWith(`${name}=`));
+
+      if (hasVoted) {
+        let value = hasVoted.split('=')[1];
+        timesVoted = values.indexOf(value.slice(0, 16));
+        weekVoted = Number(value.slice(16));
+      }
+
+      if (weekVoted !== thisWeek) timesVoted = 0; //reset votes if it's a new week
+      if (timesVoted === 0 && inSchedule) setCookie(name, timesVoted, thisWeek); //set or reset cookie if needed
+
+      return timesVoted;
+    }
+
+    function setCookie(name, timesVoted, thisWeek) {
+      const value = values[timesVoted] + thisWeek.toString();
+      document.cookie =
+        `${name}=${value}; ` +
+        `expires=${endDateGMT.toUTCString()}; ` +
+        `path=${location.pathname}`;
     }
   })();
 </script>
