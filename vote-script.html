@@ -1,9 +1,9 @@
 <script>
   (function () {
     //configuration variables
-    const startDate = 'September 23, 2024 00:00:00';
-    const endDate = 'October 11, 2024 23:59:59';
-    const maxSubmissionsPerWeek = 3;
+    const startDate = 'September 16, 2024 00:00:00';
+    const endDate = 'October 6, 2024 23:59:59';
+    const maxSubmissionsPerWeek = 10;
     const weeksToRun = 3;
     const name = 'esxzhymovcnhdrnejpvdgfwklrndmngy';
     const values = [
@@ -63,12 +63,12 @@
     ) {
       let intro = document.querySelector('#intro p');
       if (intro) {
-        const strong = document.createElement('strong');
         const h2 = document.createElement('h2');
-        h2.setAttribute('style', 'color: #8b0b04; text-align: center;');
-        h2.textContent = "Thank you for voting in KLRN's City Showdown!";
-        strong.appendChild(h2);
-        intro.parentElement.prepend(strong);
+        const strong = document.createElement('strong');
+        h2.setAttribute('style', 'color: #2638c4; text-align: center;');
+        strong.textContent = "Thank you for voting in KLRN's City Showdown!";
+        h2.appendChild(strong);
+        intro.parentElement.prepend(h2);
       }
     }
 
