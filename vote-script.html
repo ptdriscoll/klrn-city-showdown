@@ -3,7 +3,7 @@
     //configuration variables
     const startDate = 'September 16, 2024 00:00:00';
     const endDate = 'October 6, 2024 23:59:59';
-    const maxSubmissionsPerWeek = 10;
+    const maxSubmissionsPerWeek = 3;
     const weeksToRun = 3;
     const name = 'esxzhymovcnhdrnejpvdgfwklrndmngy';
     const values = [
@@ -56,19 +56,31 @@
       setCookie(name, timesVoted, thisWeek);
     }
 
-    //if this is a thank-you response or votes were maxed out, add a thank you title
-    if (
-      params.get('response') === 'thank-you' ||
-      timesVoted >= maxSubmissionsPerWeek
-    ) {
-      let intro = document.querySelector('#intro p');
-      if (intro) {
+    //modify intro message depending on votes cast
+    let intro = document.querySelectorAll('#intro p');
+    if (intro) {
+      //if this is a thank-you response or votes were maxed out, add a thank you title
+      if (
+        params.get('response') === 'thank-you' ||
+        timesVoted >= maxSubmissionsPerWeek
+      ) {
         const h2 = document.createElement('h2');
         const strong = document.createElement('strong');
         h2.setAttribute('style', 'color: #2638c4; text-align: center;');
         strong.textContent = "Thank you for voting in KLRN's City Showdown!";
         h2.appendChild(strong);
-        intro.parentElement.prepend(h2);
+        intro[0].parentElement.prepend(h2);
+      }
+
+      //if user has voted, let them know how many times they have voted
+      if (timesVoted > 0) {
+        const lastPara = intro[intro.length - 1];
+        const votingMsg = 'You can vote up to 10 times a week.';
+        const isPara = votingMsg.startsWith(votingMsg);
+        const plural = timesVoted > 1 ? 's' : '';
+        if (votingMsg.startsWith(votingMsg)) {
+          lastPara.textContent = `${votingMsg} You have voted ${timesVoted} time${plural} this week.`;
+        }
       }
     }
 
