@@ -3,7 +3,7 @@
   const formActionDev = 'api/submit-vote.php';
   const formActionProd =
     'https://pbs.klrn.org/cityshowdown/api/submit-vote.php';
-  const showThankYou = true; //set to true to get feedback from submission testing
+  const showThankYou = false; //set to true to get feedback from submission testing
 </script>
 
 <style>
@@ -12,7 +12,7 @@
   }
   #city_showdown > form {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 0 auto 0.5em;
   }
   #city_showdown > form > select,
   #city_showdown > form > select > option,
@@ -98,8 +98,6 @@
 </div>
 
 <script>
-  //NOTE: this if else block can't be saved as an embed in PBS' Bento
-  /**/
   if (['localhost', '127.0.0.1', ''].includes(location.hostname)) {
     city_showdown_form.action = formActionDev;
     const link = document.createElement('link');
@@ -107,9 +105,6 @@
     link.rel = 'stylesheet';
     document.querySelector('head').prepend(link);
   } else city_showdown_form.action = formActionProd;
-
-  //this next line is needed if the if else block above is noted out
-  //city_showdown_form.action = formActionProd;
 
   const city_showdown = document.querySelector('#city_showdown');
   const city_showdown_thanks = document.querySelector('#city_showdown_thanks');

@@ -1,10 +1,11 @@
 <script>
   (function () {
-    //configuration variables
-    const startDate = 'September 16, 2024 00:00:00';
-    const endDate = 'October 6, 2024 23:59:59';
-    const maxSubmissionsPerWeek = 3;
-    const weeksToRun = 3;
+    //configuration variables  
+    const startDate = 'November 18, 2024 00:00:00';        
+    const endDate = 'December 8, 2024 23:59:59'; 
+    const allowTest = true;  
+    const printLogs = true;    
+    const maxSubmissionsPerWeek = 3;   
     const name = 'esxzhymovcnhdrnejpvdgfwklrndmngy';
     const values = [
       '4844020483593598',
@@ -19,42 +20,49 @@
       '4373330211780922',
       '4084703218425264',
     ];
-
-    //normalize dates to GMT time
-    const startDateGMT = getDateTimeGMT(startDate);
-    const endDateGMT = getDateTimeGMT(endDate);
-    const nowDateGMT = getDateTimeGMT();
-
-    //set when voting form should show
-    const inSchedule = nowDateGMT >= startDateGMT && nowDateGMT <= endDateGMT;
-
+    
     //save any search parameters, then remove search or hash from url
     const params = new URLSearchParams(document.location.search);
     if (location.search || location.hash) {
       history.replaceState('', document.title, location.pathname);
     }
+    
+    //set isTest
+    let isTest = false;
+    if (allowTest && params.get('test') === 'true') isTest = true;
+    
+    if (printLogs) console.log('isTest:', isTest);
+    
+    //normalize dates to GMT time
+    let startDateGMT = getDateTimeGMT(startDate);
+    const endDateGMT = getDateTimeGMT(endDate);
+    const nowDateGMT = getDateTimeGMT();    
 
-    //remove margin from html block holding this script
-    const scriptTag = document.scripts[document.scripts.length - 1];
-    scriptTag.parentNode.style.marginTop = '0';
+    //set when voting form should show
+    const inSchedule = isTest || nowDateGMT >= startDateGMT && nowDateGMT <= endDateGMT;
+      
+    if (printLogs) console.log('inSchedule:', inSchedule);
 
-    //get vote buttons
-    const button1 = document.querySelector('#intro h3 > a');
-    const button2 = document.querySelector('#vote-now a');
-    if (button1) button1.addEventListener('click', replaceUrl);
-    if (button2) button2.addEventListener('click', replaceUrl);
+    //get vote button
+    const introLinks = document.querySelectorAll('#intro a');
+    const button  = Array.from(introLinks).find(link => link.textContent.trim() === "Vote Now >");
+    if (button) button.addEventListener('click', replaceUrl);
 
     //get current week of voting
     const thisWeek = getWeek(startDateGMT, nowDateGMT);
 
     //check how many votes have been cast this week
     let timesVoted = getSetCookie(name, thisWeek);
+    
+    if (printLogs) console.log('timesVoted as tracked by cookie:', timesVoted);
 
     //if this is a thank-you response, track that a new vote was cast
     if (params.get('response') === 'thank-you') {
       if (timesVoted < maxSubmissionsPerWeek) timesVoted += 1;
       setCookie(name, timesVoted, thisWeek);
     }
+    
+    if (printLogs) console.log('timesVoted if new vote was cast:', timesVoted);
 
     //modify intro message depending on votes cast
     let intro = document.querySelectorAll('#intro p');
@@ -64,35 +72,42 @@
         params.get('response') === 'thank-you' ||
         timesVoted >= maxSubmissionsPerWeek
       ) {
-        const h2 = document.createElement('h2');
-        const strong = document.createElement('strong');
-        h2.setAttribute('style', 'color: #2638c4; text-align: center;');
-        strong.textContent = "Thank you for voting in KLRN's City Showdown!";
-        h2.appendChild(strong);
-        intro[0].parentElement.prepend(h2);
+        let h1 = document.querySelector('#intro h1');
+        const thankYouHead = "Thank you for voting in KLRN's City Showdown!";
+        if (h1) {
+          //get most inner element of h1 and change text
+          h1 = (el => {while (el.children.length > 0) el = el.children[0]; return el;})(h1);  
+          h1.textContent = thankYouHead;
+        } 
+        else {   
+          //create and add h1 if needed        
+          h1 = document.createElement('h1');
+          const strong = document.createElement('strong');
+          h1.setAttribute('style', 'color: hsl(240, 75%, 60%); text-align: center;');
+          strong.textContent = thankYouHead;
+          h1.appendChild(strong);
+          intro[0].parentElement.prepend(h1);
+        }
       }
 
       //if user has voted, let them know how many times they have voted
-      if (timesVoted > 0) {
-        const lastPara = intro[intro.length - 1];
-        const votingMsg = 'You can vote up to 10 times a week.';
-        const isPara = votingMsg.startsWith(votingMsg);
+      if (timesVoted > 0 && intro) {
+        const pTag = document.createElement('p');        
+        const lastPara = intro[intro.length - 2];
         const plural = timesVoted > 1 ? 's' : '';
-        if (votingMsg.startsWith(votingMsg)) {
-          lastPara.textContent = `${votingMsg} You have voted ${timesVoted} time${plural} this week.`;
-        }
+        pTag.setAttribute('style', 'color: hsl(240, 75%, 60%); text-align: center;');
+        pTag.textContent = `You have voted ${timesVoted} time${plural} this week.`;
+        intro[0].parentElement.insertBefore(pTag, lastPara);
       }
     }
 
     //if votes were maxed out or voting is not in schedule, remove voting buttons and form
     if (timesVoted >= maxSubmissionsPerWeek || !inSchedule) {
       const voteForm = document.querySelector('#vote');
-      if (voteForm) voteForm.parentElement.remove();
-      if (button1) button1.parentElement.remove();
-      const button2Block = document.querySelector('#vote-now');
-      if (button2Block) button2Block.parentElement.remove();
-      const biosLink = document.querySelector('#bios a'); //also, shorten bios button
-      if (biosLink) biosLink.innerHTML = 'See Bios &gt;';
+      const scriptBlock = document.querySelector('#vote-script');
+      if (button) button.parentElement.remove(); 
+      if (voteForm) voteForm.parentElement.remove();           
+      if (scriptBlock) scriptBlock.parentElement.remove();
     }
 
     function replaceUrl() {
@@ -127,7 +142,7 @@
         weekVoted = Number(value.slice(16));
       }
 
-      if (weekVoted !== thisWeek) timesVoted = 0; //reset votes if it's a new week
+      if (weekVoted !== thisWeek && !isTest) timesVoted = 0; //reset votes if it's a new week, and not a test
       if (timesVoted === 0 && inSchedule) setCookie(name, timesVoted, thisWeek); //set or reset cookie if needed
 
       return timesVoted;
