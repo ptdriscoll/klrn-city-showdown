@@ -3,9 +3,9 @@
     //configuration variables  
     const startDate = 'November 18, 2024 00:00:00';        
     const endDate = 'December 8, 2024 23:59:59'; 
-    const allowTest = true;  
-    const printLogs = true;    
-    const maxSubmissionsPerWeek = 3;   
+    const maxSubmissionsPerWeek = 10; 
+    const allowTest = false;  
+    const printLogs = false;     
     const name = 'esxzhymovcnhdrnejpvdgfwklrndmngy';
     const values = [
       '4844020483593598',
@@ -34,7 +34,7 @@
     if (printLogs) console.log('isTest:', isTest);
     
     //normalize dates to GMT time
-    let startDateGMT = getDateTimeGMT(startDate);
+    const startDateGMT = getDateTimeGMT(startDate);
     const endDateGMT = getDateTimeGMT(endDate);
     const nowDateGMT = getDateTimeGMT();    
 
