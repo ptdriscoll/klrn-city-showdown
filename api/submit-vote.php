@@ -1,6 +1,5 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $from_district = intval($_POST['from_district']);
     $to_district = intval($_POST['to_district']);
     $zip = substr(htmlspecialchars($_POST['zip_code']), 0, 5);
 
@@ -8,8 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	require('../includes/database-conn.php');
 
 	//save to db and close connection
-	$stmt = $conn->prepare("INSERT INTO votes (from_district, to_district, zip) VALUES (?, ?, ?)");
-	$stmt->bind_param('iis', $from_district, $to_district, $zip);
+	$stmt = $conn->prepare("INSERT INTO votes (to_district, zip) VALUES (?, ?)");
+	$stmt->bind_param('is', $to_district, $zip);
 	$stmt->execute();
     //echo $stmt->error;
   
@@ -18,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 	//for testing
 	$test_response = '';
-	$test_response = "&from={$from_district}&to={$to_district}&zip={$zip}"; 
+	$test_response = "&to={$to_district}&zip={$zip}"; 
 	//echo '<br>'.$test_response; //for when not using post back redirect
 
 	//post back

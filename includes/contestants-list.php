@@ -1,13 +1,13 @@
 <?php
 return array(
-	1 => 'Garrett T. Capps',
-	2 => 'Real IQ',
-	3 => 'Saving Jackie',
-	4 => 'Harvey McLaughlin',
-	5 => 'Irma Aguilar',
-	6 => 'Andria Rose',
-	7 => 'Volcán',
-	8 => 'Kenny Bissett',
-	9 => 'Rayne Fernandez',
-	10 => 'Shannon Sionna'
+	1 => 'DELENDA', 
+	2 => '34K',
+	3 => 'Los Juanos',
+	4 => 'Vinny Tovar',
+	5 => 'HoneyBunny',
+	6 => 'INOHA',
+	7 => 'Vanita Leo',
+	8 => 'Bat Allison',
+	9 => 'XO Monie',
+	10 => 'Kris Cari'
 );

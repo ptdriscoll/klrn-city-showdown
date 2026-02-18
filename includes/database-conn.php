@@ -8,3 +8,6 @@ $dbname = $config['db_name'];
 //connect to db
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) die('Connection failed: ' . $conn->connect_error);
+
+//set time zone to Central Standard Time for current session
+$conn->query("SET time_zone = 'America/Chicago'");
