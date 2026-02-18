@@ -17,6 +17,18 @@ DROP TABLE votes;
 ```
 CREATE TABLE votes (
     id int NOT NULL AUTO_INCREMENT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    to_district int NOT NULL,
+    zip varchar(10),
+    PRIMARY KEY (id)
+);
+```
+
+This is the SQL code used to create the database table for the 2023 event:
+
+```
+CREATE TABLE votes (
+    id int NOT NULL AUTO_INCREMENT,
     from_district int NOT NULL,
     to_district int NOT NULL,
     zip varchar(10),
@@ -80,7 +92,9 @@ return array(
 - **index.php** - admin interface
 - **sql.txt** - for reference, SQL code used in app
 - **vote.html** - HTML, CSS and JavaScript component to manually insert as a [PBS Bento 3 Embed Code](https://docs.pbs.org/display/B3/Embed) for [klrn.org](https://www.klrn.org/)
+- **vote-2023.html** - version from 2023 event
 - **vote-script.html** - script to handle dynamic page elements outside of voting form, such as how many votes to allow, and when to show form, buttons and thank-you message
+- **vote-script-2023.html** - version from 2023 event
 
 ![City Showdown results mockup](images/results.jpg)
 

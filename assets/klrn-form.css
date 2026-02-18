@@ -1,3 +1,6 @@
+/* import Font Awesome */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
 html {
   font-size: 10px;
 }
@@ -62,12 +65,15 @@ input[type='checkbox']:focus {
 }
 .klrn_button.read-more__link:after {
   content: '\F105';
-  font-family: Font Awesome\5 Free;
+  font-family: 'Font Awesome 5 Free';
   font-weight: 600;
   font-style: normal;
   text-decoration: inherit;
+  display: flex;
+  align-items: center;
   position: absolute;
+  height: 100%;
   right: 15px;
+  top: 0;
   font-size: 22px;
-  top: 13px;
 }

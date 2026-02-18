@@ -1,6 +1,31 @@
 DROP TABLE votes;
 
 
+--------------------------------------------------
+-- 2024
+--------------------------------------------------
+
+CREATE TABLE votes (
+    id int NOT NULL AUTO_INCREMENT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    to_district int NOT NULL,
+    zip varchar(10),
+    PRIMARY KEY (id)
+);
+
+INSERT INTO votes (to_district, zip) 
+VALUES (2, '12345')
+
+SELECT to_district, COUNT(*) AS count FROM votes 
+GROUP BY to_district ORDER By to_district
+
+SELECT created_at, to_district, zip FROM votes 
+ORDER By created_at
+
+--------------------------------------------------
+-- 2023 
+--------------------------------------------------
+
 CREATE TABLE votes (
     id int NOT NULL AUTO_INCREMENT,
     from_district int NOT NULL,
@@ -9,14 +34,11 @@ CREATE TABLE votes (
     PRIMARY KEY (id)
 );
 
-
-INSERT INTO votes (from_district, to_district, zip varchar)
+INSERT INTO votes (from_district, to_district, zip)
 VALUES (11, 2, '12345')
-
 
 SELECT to_district, COUNT(*) AS count FROM votes 
 GROUP BY to_district ORDER By to_district
-
 
 SELECT from_district, to_district, zip FROM votes 
 ORDER By from_district, to_district
