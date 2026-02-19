@@ -7,5 +7,5 @@ return array(
     'vote_url_dev' => '../vote.html',
     'vote_url_prod' => 'https://www.klrn.org/events/cityshowdown/',
 	'users' => ['dev1' => '123', 
-                'dev2', '234']
+              'dev2' => '234']
 );
